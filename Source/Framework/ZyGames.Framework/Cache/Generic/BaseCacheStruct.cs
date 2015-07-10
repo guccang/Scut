@@ -369,13 +369,13 @@ namespace ZyGames.Framework.Cache.Generic
         protected bool TryLoadCache(TransReceiveParam receiveParam, int periodTime, bool isReplace)
         {
             //todo: trace
-            var watch = RunTimeWatch.StartNew(string.Format("Try load cache data:{0}", receiveParam.Schema.EntityType.FullName));
+            //var watch = RunTimeWatch.StartNew(string.Format("Try load cache data:{0}", receiveParam.Schema.EntityType.FullName));
             try
             {
                 List<T> dataList;
                 if (DataContainer.TryReceiveData(receiveParam, out dataList))
                 {
-                    watch.Check("received count:" + dataList.Count, 20);
+                    //watch.Check("received count:" + dataList.Count, 20);
                     if (dataList.Count == 0) return true;
                     return InitCache(dataList, periodTime, isReplace);
                 }
@@ -387,7 +387,7 @@ namespace ZyGames.Framework.Cache.Generic
             }
             finally
             {
-                watch.Flush(false, 500);
+                //watch.Flush(false, 500);
             }
             return false;
         }
@@ -403,24 +403,24 @@ namespace ZyGames.Framework.Cache.Generic
         protected bool TryLoadCache(string groupKey, TransReceiveParam receiveParam, int periodTime, bool isReplace)
         {
             //todo: trace
-            var watch = RunTimeWatch.StartNew(string.Format("Try load cache data:{0}-{1}", receiveParam.Schema.EntityType.FullName, groupKey));
+            //var watch = RunTimeWatch.StartNew(string.Format("Try load cache data:{0}-{1}", receiveParam.Schema.EntityType.FullName, groupKey));
             try
             {
                 CacheItemSet itemSet = InitContainer(groupKey, periodTime);
                 List<T> dataList;
                 if (DataContainer.TryReceiveData(receiveParam, out dataList))
                 {
-                    watch.Check("received count:" + dataList.Count);
+                    //watch.Check("received count:" + dataList.Count);
                     InitCache(dataList, periodTime, isReplace);
                     itemSet.OnLoadSuccess();
-                    watch.Check("Init cache:");
+                    //watch.Check("Init cache:");
                     return true;
                 }
                 itemSet.OnLoadError();
             }
             finally
             {
-                watch.Flush(true, 20);
+                //watch.Flush(true, 20);
             }
             TraceLog.WriteError("Try load cache data:{0} error.", typeof(T).FullName);
             return false;

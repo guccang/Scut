@@ -175,7 +175,7 @@ namespace ZyGames.Framework.Cache.Generic
         protected bool TryLoadRankCache(string key, TransReceiveParam receiveParam, int periodTime, bool isReplace)
         {
             //todo: trace
-            var watch = RunTimeWatch.StartNew(string.Format("Try load rank cache:{0}-{1}", receiveParam.Schema.EntityType.FullName, key));
+            //var watch = RunTimeWatch.StartNew(string.Format("Try load rank cache:{0}-{1}", receiveParam.Schema.EntityType.FullName, key));
             try
             {
                 List<T> dataList;
@@ -183,16 +183,16 @@ namespace ZyGames.Framework.Cache.Generic
                 {
                     CacheItemSet itemSet;
                     DataContainer.TryGetOrAddRank(key, out itemSet, periodTime);
-                    watch.Check("received count:" + dataList.Count);
+                    //watch.Check("received count:" + dataList.Count);
                     InitCache(dataList, periodTime, isReplace);
-                    watch.Check("Init cache:");
+                    //watch.Check("Init cache:");
                     itemSet.OnLoadSuccess();
                     return true;
                 }
             }
             finally
             {
-                watch.Flush(true, 20);
+                //watch.Flush(true, 20);
             }
             TraceLog.WriteError("Try load cache data:{0} error.", typeof(T).FullName);
             return false;

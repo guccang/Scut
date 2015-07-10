@@ -760,7 +760,7 @@ namespace ZyGames.Framework.Redis
         public static object[] GetAllEntity(string personalId, params  Type[] entityTypes)
         {
             //todo: trace
-            var watch = RunTimeWatch.StartNew("Get redis data of persionalId:" + personalId);
+            //var watch = RunTimeWatch.StartNew("Get redis data of persionalId:" + personalId);
             if (entityTypes.Length == 0) return null;
 
             byte[] keytBytes = ToByteKey(personalId);
@@ -800,7 +800,7 @@ namespace ZyGames.Framework.Redis
                     valueBytes = values.ToArray();
                     //valueBytes = client.Eval(script, redisKeys.Count, redisKeys.ToArray());
                 });
-                watch.Check("redis get");
+                //watch.Check("redis get");
                 if (valueBytes != null)
                 {
                     var result = new object[entityTypes.Length];
@@ -821,7 +821,7 @@ namespace ZyGames.Framework.Redis
             }
             finally
             {
-                watch.Flush(true, 100);
+                //watch.Flush(true, 100);
             }
             return null;
         }
@@ -855,7 +855,7 @@ namespace ZyGames.Framework.Redis
         private static bool TryGetValue<T>(string redisKey, SchemaTable table, out List<T> list, bool hasMutilKeyIndexs) where T : ISqlEntity
         {
             //todo: trace
-            var watch = RunTimeWatch.StartNew("Redis TryGetEntity " + redisKey);
+            //var watch = RunTimeWatch.StartNew("Redis TryGetEntity " + redisKey);
             try
             {
                 CacheType cacheType = table.CacheType;
@@ -872,7 +872,7 @@ namespace ZyGames.Framework.Redis
                 byte[][] valueBytes = null;
                 byte[][] keyValueBytes = null;
                 byte[] value = null;
-                watch.Check("init");
+                //watch.Check("init");
                 ProcessReadOnly(client =>
                 {
                     if (cacheType == CacheType.Rank)
@@ -901,7 +901,7 @@ namespace ZyGames.Framework.Redis
                         value = client.HGet(hashId, keyCode);
                     }
                 });
-                watch.Check("redis get");
+                //watch.Check("redis get");
                 if (value != null)
                 {
                     list = new List<T> { (T)_serializer.Deserialize(value, typeof(T)) };
@@ -935,8 +935,8 @@ namespace ZyGames.Framework.Redis
             }
             finally
             {
-                watch.Check("deserialize");
-                watch.Flush(true, 100);
+                //watch.Check("deserialize");
+                //watch.Flush(true, 100);
             }
             return false;
         }
