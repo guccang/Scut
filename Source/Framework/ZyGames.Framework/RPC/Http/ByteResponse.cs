@@ -74,6 +74,52 @@ namespace ZyGames.Framework.RPC.Http
         /// <returns></returns>
         public override async Task Execute(IHttpRequestResponseContext context)
         {
+            bool isProcessPay = context.Request.RawUrl.IndexOf("PayBaiDu") > 0;
+            if (context.Request.RawUrl.IndexOf("PayBaiDu") > 0)
+            {
+                context.Response.ContentType = "text/html";
+                context.Response.StatusCode = 200;
+                context.Response.StatusDescription = "ok";
+                string info = System.Text.Encoding.UTF8.GetString(data);
+                using (Stream output = context.Response.OutputStream)
+                {
+                    StreamWriter myStreamWriter = new StreamWriter(output, System.Text.Encoding.GetEncoding("gb2312"));
+                    await myStreamWriter.WriteAsync(info);
+                    myStreamWriter.Close();
+                }
+                return;
+            }
+            else if (context.Request.RawUrl.IndexOf("Pay360") > 0)
+            {
+                context.Response.ContentType = "text/html";
+                context.Response.StatusCode = 200;
+                context.Response.StatusDescription = "ok";
+                byte[] TheData = System.Text.Encoding.UTF8.GetBytes("ok");
+                context.Response.ContentLength64 = TheData.Length;
+                context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                using (Stream output = context.Response.OutputStream)
+                {
+                    await output.WriteAsync(TheData, 0, TheData.Length);
+                    output.Close();
+                }
+                return;
+            }
+            else if (context.Request.RawUrl.IndexOf("Guard") > 0)
+            {
+                context.Response.ContentType = "text/html";
+                context.Response.StatusCode = 200;
+                context.Response.StatusDescription = "ok";
+                byte[] TheData = System.Text.Encoding.UTF8.GetBytes("guard ok");
+                context.Response.ContentLength64 = TheData.Length;
+                context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                using (Stream output = context.Response.OutputStream)
+                {
+                    await output.WriteAsync(TheData, 0, TheData.Length);
+                    output.Close();
+                }
+                return;
+            }
+
             if (data == null)
             {
                 context.Response.StatusCode = 500;
