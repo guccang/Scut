@@ -243,9 +243,7 @@ namespace ZyGames.Framework.Game.Contract
                         session.DoHeartbeatTimeout();
                     }
                 }
-                // modify by ztj.not save session
-                // gamesession is 60 seconds for my game.
-                //SaveTo();
+                SaveTo();
             }
             catch (Exception er)
             {

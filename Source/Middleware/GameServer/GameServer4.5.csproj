@@ -30,7 +30,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\..\..\..\NSNSGameServer\GameServer\GameRanking.WebU3D4_5\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;NET4_5_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,6 +73,24 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Script\CsScript\Action\Action1000.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Script\CsScript\Action\Action1001.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Script\CsScript\Locale\SimplifiedLanguage.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Script\CsScript\MainClass.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Script\Model\GuestUser.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Script\Model\UserRanking.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -83,14 +101,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\NSNSGameServer\GameServer\GameRanking.WebU3D4_5\GameRanking.WebU3D.csproj">
-      <Project>{7ff2b7af-8edf-4e1c-976f-cbe8ac00bee9}</Project>
-      <Name>GameRanking.WebU3D</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\..\NSNSGameServer\NSNSTools\NSNSTools.csproj">
-      <Project>{d659805b-2763-4b97-80c0-255e0e265b15}</Project>
-      <Name>NSNSTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Framework\ZyGames.Framework.Common\ZyGames.Framework.Common4.5.csproj">
       <Project>{e87a5049-85a1-436b-a5ed-2bc0a4e45bdb}</Project>
       <Name>ZyGames.Framework.Common4.5</Name>
@@ -104,11 +114,7 @@
       <Name>ZyGames.Framework.Game4.5</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Script\CsScript\Action\" />
-    <Folder Include="Script\CsScript\Locale\" />
-    <Folder Include="Script\Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
