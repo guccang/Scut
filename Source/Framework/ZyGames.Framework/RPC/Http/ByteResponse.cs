@@ -78,12 +78,12 @@ namespace ZyGames.Framework.RPC.Http
             if (isProcessPay)
             {
                 string info = System.Text.Encoding.UTF8.GetString(data);
-                context.Response.ContentType = "text/html";
+                context.Response.ContentType = "application/json";
                 context.Response.StatusCode = 200;
                 context.Response.StatusDescription = "ok";
                 using (Stream output = context.Response.OutputStream)
                 {
-                    StreamWriter myStreamWriter = new StreamWriter(output, System.Text.Encoding.GetEncoding("gb2312"));
+                    StreamWriter myStreamWriter = new StreamWriter(output, System.Text.Encoding.UTF8);
                     await myStreamWriter.WriteAsync(info);
                     myStreamWriter.Close();
                 }
