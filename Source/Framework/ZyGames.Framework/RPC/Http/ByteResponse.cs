@@ -78,7 +78,7 @@ namespace ZyGames.Framework.RPC.Http
             if (isProcessPay)
             {
                 string info = System.Text.Encoding.UTF8.GetString(data);
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = "text/json";
                 context.Response.StatusCode = 200;
                 context.Response.StatusDescription = "ok";
                 using (Stream output = context.Response.OutputStream)
@@ -131,7 +131,7 @@ namespace ZyGames.Framework.RPC.Http
             context.Response.AddHeader("Access-Control-Allow-Origin", "*");
             if (context.Request.QueryString["showjson"] == "1")
             {
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = "text/json";
                 context.Response.SendChunked = false;
                 context.Response.ContentLength64 = data.Length;
                 using (Stream output = context.Response.OutputStream)
