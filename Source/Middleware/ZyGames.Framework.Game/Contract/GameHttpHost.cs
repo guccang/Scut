@@ -175,6 +175,7 @@ namespace ZyGames.Framework.Game.Contract
             session.InitHttp(context.Request);
             return session;
         }
+
     }
     /// <summary>
     /// 
