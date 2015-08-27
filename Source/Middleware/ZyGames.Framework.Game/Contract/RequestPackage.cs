@@ -102,7 +102,7 @@ namespace ZyGames.Framework.Game.Contract
         /// 是否是Url格式参数类型
         /// </summary>
         [ProtoMember(8)]
-        public bool IsUrlParam { get; internal protected set; }
+        public bool IsUrlParam { get;  set; }
 
         //注释原因：重复解析参数字串
         ///// <summary>

@@ -222,9 +222,9 @@ namespace ZyGames.Framework.Game.Contract
             ActionGetter httpGet = actionDispatcher.GetActionGetter(package, session);
             if (package.IsUrlParam)
             {
-                httpGet["UserHostAddress"] = session.RemoteAddress;
-                httpGet["ssid"] = session.KeyCode.ToString("N");
-                httpGet["http"] = "1";
+             //   httpGet["UserHostAddress"] = session.RemoteAddress;
+              //  httpGet["ssid"] = session.KeyCode.ToString("N");
+               // httpGet["http"] = "1";
             }
 
             var result = await System.Threading.Tasks.Task.Run<byte[]>(() =>

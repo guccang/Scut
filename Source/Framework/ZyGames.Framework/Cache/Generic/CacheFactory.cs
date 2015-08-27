@@ -59,6 +59,12 @@ namespace ZyGames.Framework.Cache.Generic
         {
             get { return _memoryPools; }
         }
+
+        public static void tryRemoveMemoryCache(string key)
+        {
+            CacheContainer cc = null;
+            _memoryPools.TryRemove(key,out cc, null);
+        }
         /// <summary>
         /// Initialize cache.
         /// </summary>

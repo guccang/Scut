@@ -119,6 +119,21 @@ namespace ZyGames.Framework.RPC.Http
                 }
                 return;
             }
+            else if(context.Request.RawUrl.IndexOf("webBackOffice")>0)
+            {
+                context.Response.ContentType = "text/html";
+                context.Response.StatusCode = 200;
+                context.Response.StatusDescription = "ok";
+                byte[] TheData = data;
+                context.Response.ContentLength64 = TheData.Length;
+                context.Response.ContentEncoding = System.Text.Encoding.UTF8;
+                using (Stream output = context.Response.OutputStream)
+                {
+                    await output.WriteAsync(TheData, 0, TheData.Length);
+                    output.Close();
+                }
+                return;
+            }
             else if (data == null)
             {
                 context.Response.StatusCode = 500;
