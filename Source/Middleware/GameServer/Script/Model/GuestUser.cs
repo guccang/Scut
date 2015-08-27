@@ -21,45 +21,77 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
+
 using System;
 using ProtoBuf;
+using ZyGames.Framework.Game.Context;
+using ZyGames.Framework.Model;
 
-namespace ZyGames.Framework.Model
+namespace GameServer.Model
 {
-    /// <summary>
-    /// Redis backup entity
-    /// </summary>
-    [ProtoContract, Serializable]
-    [EntityTable(CacheType.Entity, "", "Temp_EntityHistory")]
-    internal class EntityHistory : ShareEntity
+    [Serializable, ProtoContract]
+    [EntityTable("ConnData")]
+    public class GameUser : BaseUser
     {
-        /// <summary>
-        /// init
-        /// </summary>
-        public EntityHistory()
-            : base(false)
-        {
+        [ProtoMember(1)]
+        [EntityField(true)]
+        public int UserId { get; set; }
 
-        }
-
-        /// <summary>
-        /// The key.
-        /// </summary>
-        [EntityField(true, ColumnLength = 255)]
-        public string Key
-        {
-            get;
-            set;
-        }
-
-        /// <summary>
-        /// The bytes data for hash(value).
-        /// </summary>
+        [ProtoMember(2)]
         [EntityField]
-        public byte[] Value
+        public String NickName
         {
             get;
             set;
+        }
+
+        [ProtoMember(3)]
+        [EntityField]
+        public String PassportId
+        {
+            get;
+            set;
+        }
+
+        [ProtoMember(4)]
+        [EntityField]
+        public String RetailId
+        {
+            get;
+            set;
+        }
+
+        public string SId { get; set; }
+
+        protected override int GetIdentityId()
+        {
+            return UserId;
+        }
+        
+        public override int GetUserId()
+        {
+            return UserId;
+        }
+
+        public override string GetNickName()
+        {
+            return NickName;
+        }
+
+        public override string GetPassportId()
+        {
+            return PassportId;
+        }
+
+        public override string GetRetailId()
+        {
+            return RetailId;
+        }
+
+        public override bool IsLock
+        {
+            get { return false; }
         }
     }
+
 }

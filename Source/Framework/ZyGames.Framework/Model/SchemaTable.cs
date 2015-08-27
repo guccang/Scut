@@ -174,6 +174,15 @@ namespace ZyGames.Framework.Model
         public string NameFormat { get; set; }
 
         /// <summary>
+        /// 是否是内部使用的
+        /// </summary>
+        public bool IsInternal { get; internal set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsMutilKey { get { return Keys != null && Keys.Length > 1; } }
+        /// <summary>
         /// 主键
         /// </summary>
         public string[] Keys
@@ -230,7 +239,7 @@ namespace ZyGames.Framework.Model
         /// <returns></returns>
         public List<SchemaColumn> GetObjectColumns()
         {
-            return _columns.Values.Where(t=>t.IsSerialized).OrderBy(col => col.Id).ToList();
+            return _columns.Values.Where(t => t.IsSerialized).OrderBy(col => col.Id).ToList();
         }
         /// <summary>
         /// Get schema column name to list.

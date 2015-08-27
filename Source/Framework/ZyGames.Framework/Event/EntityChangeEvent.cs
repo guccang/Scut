@@ -22,10 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 ****************************************************************************/
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using Newtonsoft.Json;
 using ProtoBuf;
 using ZyGames.Framework.Common.Serialization;
+using ZyGames.Framework.Model;
 
 namespace ZyGames.Framework.Event
 {
@@ -89,9 +91,12 @@ namespace ZyGames.Framework.Event
         /// <summary>
         /// 清除子类事件句柄
         /// </summary>
-        internal void ClearChildrenEvent()
+        internal void ClearChildrenEvent<T>(IEnumerable<T> childs)
         {
-            _childrenEvent = new CacheItemChangeEvent();
+            foreach (var child in childs)
+            {
+                RemoveChildrenListener(child);
+            }
         }
         /// <summary>
         /// 实体映射的字段名
@@ -242,12 +247,12 @@ namespace ZyGames.Framework.Event
             {
                 try
                 {
-                    Interlocked.Exchange(ref _modified, 1);
+                    DelayNotify();
                     updateHandle(this);
                 }
                 finally
                 {
-                    Interlocked.Exchange(ref _modified, 0);
+                    ExitModify();
                     Notify(this, CacheItemChangeType.Modify, PropertyName);
                 }
             }
@@ -298,8 +303,16 @@ namespace ZyGames.Framework.Event
         /// </summary>
         public override void TriggerNotify()
         {
-            Interlocked.Exchange(ref _modified, 0);
+            ExitModify();
             Notify(this, CacheItemChangeType.Modify, PropertyName);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        protected void ExitModify()
+        {
+            Interlocked.Exchange(ref _modified, 0);
         }
 
         /// <summary>
@@ -335,8 +348,8 @@ namespace ZyGames.Framework.Event
         /// <param name="propertyName"></param>
         protected void Notify(object sender, CacheItemChangeType changeType, string propertyName)
         {
-            //在内存状态后才开启事件通知
-            if (IsInCache)
+            //AbstractEntity子类在内存中时才开启事件通知
+            if (IsInCache || !(this is AbstractEntity))
             {
                 Notify(sender, new CacheItemEventArgs(changeType, propertyName));
             }
@@ -350,7 +363,7 @@ namespace ZyGames.Framework.Event
         protected virtual void Notify(object sender, CacheItemEventArgs eventArgs)
         {
             //modify reason:调用ExclusiveModify方法多个属性被修改时,修改状态延后通知，减少频繁同步数据
-            if (!_isDisableEvent && !IsModifying && IsInCache)
+            if (!_isDisableEvent && !IsModifying && (IsInCache || !(this is AbstractEntity)))
             {
                 IItemChangeEvent val;
                 if ((val = sender as IItemChangeEvent) != null && !val.IsInCache)
@@ -372,7 +385,7 @@ namespace ZyGames.Framework.Event
         /// <param name="eventArgs"></param>
         protected virtual void NotifyByChildren(object sender, CacheItemEventArgs eventArgs)
         {
-            if (!_isDisableEvent && IsInCache)
+            if (!_isDisableEvent && (IsInCache || !(this is AbstractEntity)))
             {
                 _hasChanged = true;
                 if (ItemEvent != null)
